@@ -1,0 +1,34 @@
+# Copyright (c) 2022, Frappe Technologies Pvt. Ltd. and contributors
+# For license information, please see license.txt
+
+import frappe
+
+def execute (filters=None):
+	columns = [
+		{'fieldname': 'Supplier', 'label': ('Supplier'), 'fieldtype': 'link', 'options': 'Supplier', 'width':'200'},
+		{'fieldname': 'Sup_date', 'label': ('Date'), 'fieldtype': 'date', 'width':'200'},
+		{'fieldname': 'G_total', 'label': ('Grand Total'), 'fieldtype':'data'},
+		{'fieldname': 'stat', 'label': ('Status'), 'fieldtype':'data'},
+		{'fieldname': 'per_bill', 'label': ('% Build'), 'fieldtype':'data'},
+		{'fieldname': 'per_rec', 'label': ('% Received'), 'fieldtype':'data'},
+		{'fieldname': 'currency', 'label': ('Currency'), 'fieldtype':'data'}
+
+		
+
+	]
+	d_data = frappe.get_all(doctype = "Purchase Order",fields = ['supplier', 'transaction_date','grand_total','currency','status','per_billed','per_received'])
+	#a_data = frappe.get_all (doctype = 'Doctype')
+	data = []
+	for d in d_data:
+		row = {
+			'Supplier': d.supplier,
+			'Sup_date': d.transaction_date,
+			'G_total': d.grand_total,
+			'currency': d.currency,
+			'stat':d.status,
+			'per_bill':d.per_billed,
+			'per_rec':d.per_received
+		}
+		data.append(row)
+
+	return columns, data
