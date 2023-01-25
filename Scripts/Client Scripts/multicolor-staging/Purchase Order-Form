@@ -1,0 +1,24 @@
+cur_frm.cscript.onload = function() {
+	cur_frm.set_query("shipping_address", function() {
+		return
+			query: 'frappe.contacts.doctype.address.address.address_query'
+	});
+	
+	cur_frm.set_query("supplier_address", function() {
+		return {
+			query: 'frappe.contacts.doctype.address.address.address_query',
+			filters: { link_doctype: 'Supplier', link_name: cur_frm.doc.supplier }
+		}
+	});
+	
+	
+	cur_frm.set_query("billing_address", function() {
+		return {
+			query: 'frappe.contacts.doctype.address.address.address_query',
+			filters: { is_your_company_address: 1, link_doctype: 'Company', link_name: cur_frm.doc.company || '' }
+		}
+	});
+	
+	
+};
+
